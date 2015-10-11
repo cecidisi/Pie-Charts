@@ -1,0 +1,14 @@
+.main {
+    display: inline-block;
+    margin: 10px;
+    width: calc(100% - 20px);
+    text-align: left;
+}
+
+
+.pie-container {
+    display: inline-block;
+    /*height: 16px;
+    width: 16px;*/
+    margin: 10px;
+}
