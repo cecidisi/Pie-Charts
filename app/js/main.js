@@ -1,8 +1,33 @@
 (function(){
 
     var $main = $('.main');
-    var size = 32;
+    var size = 14;
 
+    var pieOptions = {
+        size: { pieOuterRadius: '100%', canvasHeight: '14', canvasWidth: '14' },
+        effects: {
+            load: { effect: "none" },
+            pullOutSegmentOnClick: { effect: 'none', speed: 0, size: 0 },
+            highlightSegmentOnMouseover: false
+        },
+        labels: {
+            inner: { format: '' },
+            lines: { enabled: false}
+        },
+        data: {
+            content: [
+                { label: 'full', value: 0, color: '#65BA20' },
+                { label: 'empty', value: 0, color: '#fafafa' },
+            ]
+        },
+        misc: {
+            colors: { segmentStroke: '#65a620' },
+            canvasPadding: { top: 1, right: 1, bottom: 1, left: 1 },
+            gradient: { enabled: true, percentage: 100, color: "#888" },
+        }
+    };
+    
+    
     var pieChartOptions = {
         "header": {
             "title": {
@@ -27,65 +52,59 @@
                 {
                     "label": "full",
                     "value": 0,
-                    "color": "#414141"
+                    "color": "#65BA20"
                 },
                 {
                     "label": "empty",
                     "value": 0,
-                    "color": "#ffffff"
+                    "color": "#fafafa"
                 }
             ]
         },
         "labels": {
-            "outer": {
-                "format": "none"
-            },
-            "inner": {
-                "format": "none"
-            }
+            "outer": { "format": "none" },
+            "inner": { "format": "none" }
         },
-        "effects": {
-            "load": {
-                "effect": "none"
-            },
-            "pullOutSegmentOnClick": {
-                "effect": "none"
-            },
+        "effects": { 
+            "load": { "effect": "none" },
+            "pullOutSegmentOnClick": { "effect": "none" },
             "highlightSegmentOnMouseover": false
         },
         "misc": {
-            "colors": {
-                "segmentStroke": "#000000"
-            },
+            "colors": { "segmentStroke": '#65a620' },
             "canvasPadding": { "top": 0, "right": 0, "bottom": 0, "left": 0 }
         }
     };
 
     var color = ["#d9d9d9","#969696","#737373","#525252","#000000"];
 
-    var pies = [
-        { full: 50, color: color[0] },
-        { full: 66, color: color[1] },
-        { full: 75, color: color[2] },
-        { full: 83, color: color[3] },
-        { full: 100, color: color[4] }
-    ];
+//    var pies = [
+//        { full: 50, color: color[0] },
+//        { full: 66, color: color[1] },
+//        { full: 75, color: color[2] },
+//        { full: 83, color: color[3] },
+//        { full: 100, color: color[4] }
+//    ];
 
+    
+    var pies = [0,5,10,15,20,25,30,35,40,45,50,55,60,65,70,75,80,85,90,95,100];    
 
     pies.forEach(function(p, i){
 
         var $pie = $('<div></div>', { id: 'pie-' + i }).appendTo($main).addClass('pie-container');
-        pieChartOptions.data.content[0].value = p.full;
-        pieChartOptions.data.content[0].color = p.color;
-        pieChartOptions.data.content[1].value = (100 - p.full) || 0.1;
-     //   pieChartOptions.misc.colors.segmentStroke = p.color;
-
-        var pieChart = new d3pie('pie-' + i, pieChartOptions);
+//        pieChartOptions.data.content[0].value = p.full;
+//        pieChartOptions.data.content[0].color = p.color;
+//        pieChartOptions.data.content[1].value = (100 - p.full) || 0.1;
+//        var pieChart = new d3pie('pie-' + i, pieChartOptions);
+        
+        pieOptions.data.content[0].value = p || 0.1;
+        pieOptions.data.content[1].value = (100-p) || 0.1;
+        var pieChart = new d3pie('pie-' + i, pieOptions);
     });
 
     d3.select('canvas')
-        .attr('width', size)
-        .attr('height', size);
+        .attr('width', size+2)
+        .attr('height', size+2);
 
 
     $("#save").on("click", function(){
@@ -114,7 +133,8 @@
                 d3.select("#pngdataurl").html(pngimg);
 
                 var a = document.createElement("a");
-                a.download = 'pie-chart-' + p.full + '.png';
+//                a.download = 'pie-chart-' + p.full + '.png';
+                a.download = 'pie-chart-' + p + '.png';
                 a.href = canvasdata;
                 a.click();
             }
@@ -127,3 +147,4 @@
 
 
 })()
+
